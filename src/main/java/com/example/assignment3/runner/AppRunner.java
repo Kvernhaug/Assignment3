@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 import java.util.Set;
-
+/*
 @Component
 public class AppRunner implements CommandLineRunner {
 
@@ -25,11 +25,17 @@ public class AppRunner implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) throws Exception {
+        // Print movies with character
         printMoviesForCharacter(1);
+        // add character to DB
+        Character newCharacter = new Character();
+        newCharacter.setName("Bill");
+        add(newCharacter);
 
     }
 
     public void findByName(String name) {
+
         Optional<Character> characters = characterRepository.findByName(name);
     }
 
@@ -37,4 +43,12 @@ public class AppRunner implements CommandLineRunner {
         Character character = characterRepository.findById(id).get();
         character.getMovies().forEach(System.out::println);
     }
+
+    public void add(Character character) {
+        characterRepository.save(character);
+
+
+    }
 }
+
+ */
