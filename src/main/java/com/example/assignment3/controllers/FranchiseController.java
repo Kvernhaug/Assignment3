@@ -1,11 +1,13 @@
 package com.example.assignment3.controllers;
 
+import com.example.assignment3.mappers.CharacterMapper;
 import com.example.assignment3.mappers.FranchiseMapper;
 import com.example.assignment3.mappers.MovieMapper;
 import com.example.assignment3.model.Franchise;
-import com.example.assignment3.model.Movie;
+import com.example.assignment3.model.dto.character.CharacterDTO;
 import com.example.assignment3.model.dto.franchise.FranchiseDTO;
 import com.example.assignment3.model.dto.franchise.FranchisePostDTO;
+import com.example.assignment3.model.dto.franchise.FranchisePutDTO;
 import com.example.assignment3.model.dto.movie.MovieDTO;
 import com.example.assignment3.services.franchise.FranchiseService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,10 +32,19 @@ import java.net.URISyntaxException;
 public class FranchiseController {
     private final FranchiseService franchiseService;
     private final FranchiseMapper franchiseMapper;
+    private final MovieMapper movieMapper;
+    private final CharacterMapper characterMapper;
 
-    public FranchiseController(FranchiseService franchiseService, FranchiseMapper franchiseMapper) {
+    public FranchiseController(
+            FranchiseService franchiseService,
+            FranchiseMapper franchiseMapper,
+            MovieMapper movieMapper,
+            CharacterMapper characterMapper
+    ) {
         this.franchiseService = franchiseService;
         this.franchiseMapper = franchiseMapper;
+        this.movieMapper = movieMapper;
+        this.characterMapper = characterMapper;
     }
 
     /**
@@ -134,5 +145,88 @@ public class FranchiseController {
         );
         franchiseService.deleteById(id);
         return ResponseEntity.ok(franchiseDTO);
+    }
+
+    /**
+     *
+     * @param entity
+     * @param id
+     * @return
+     */
+    @PutMapping("{id}")
+    @Operation(summary = "Update a franchise")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Success",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found",
+                    content = @Content
+            )
+    })
+    public ResponseEntity update(@RequestBody FranchisePutDTO entity, @PathVariable int id) {
+        if (id != entity.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
+        franchiseService.update(franchiseMapper.franchisePutDtoToFranchise(entity));
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Calls findMoviesInFranchise from FranchiseService
+     * @param id ID of franchise
+     * @return Response entity of all movies in given franchise
+     */
+    @GetMapping("{id}/movies")
+    @Operation(summary = "Get movies in franchise")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
+                    }
+            )
+    })
+    public ResponseEntity findMoviesInFranchise(@PathVariable int id) {
+        return ResponseEntity.ok(
+                movieMapper.movieToMovieDto(
+                        franchiseService.findMoviesInFranchise(id)
+                )
+        );
+    }
+
+    /**
+     * Calls findCharactersInFranchise from FranchiseService
+     * @param id ID of franchise
+     * @return Response entity of all characters in given franchise
+     */
+    @GetMapping("{id}/characters")
+    @Operation(summary = "Get characters in franchise")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))
+                    }
+            )
+    })
+    public ResponseEntity findCharactersInFranchise(@PathVariable int id) {
+        return ResponseEntity.ok(
+                characterMapper.characterToCharacterDto(
+                        franchiseService.findCharactersInFranchise(id)
+                )
+        );
     }
 }

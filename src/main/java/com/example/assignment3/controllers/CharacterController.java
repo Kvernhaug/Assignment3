@@ -4,6 +4,8 @@ import com.example.assignment3.mappers.CharacterMapper;
 import com.example.assignment3.model.Character;
 import com.example.assignment3.model.dto.character.CharacterDTO;
 import com.example.assignment3.model.dto.character.CharacterPostDTO;
+import com.example.assignment3.model.dto.character.CharacterPutDTO;
+import com.example.assignment3.model.dto.franchise.FranchisePutDTO;
 import com.example.assignment3.services.character.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -130,5 +132,32 @@ public class CharacterController {
         );
         characterService.deleteById(id);
         return ResponseEntity.ok(characterDTO);
+    }
+
+    @PutMapping("{id}")
+    @Operation(summary = "Update a character")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Success",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found",
+                    content = @Content
+            )
+    })
+    public ResponseEntity update(@RequestBody CharacterPutDTO entity, @PathVariable int id) {
+        if (id != entity.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
+        characterService.update(characterMapper.characterPutDtoToCharacter(entity));
+        return ResponseEntity.noContent().build();
     }
 }

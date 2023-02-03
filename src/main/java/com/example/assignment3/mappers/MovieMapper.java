@@ -2,8 +2,10 @@ package com.example.assignment3.mappers;
 
 import com.example.assignment3.model.Character;
 import com.example.assignment3.model.Movie;
+import com.example.assignment3.model.dto.character.CharacterDTO;
 import com.example.assignment3.model.dto.movie.MovieDTO;
 import com.example.assignment3.model.dto.movie.MoviePostDTO;
+import com.example.assignment3.model.dto.movie.MoviePutDTO;
 import com.example.assignment3.services.character.CharacterService;
 import com.example.assignment3.services.franchise.FranchiseService;
 import org.mapstruct.Mapper;
@@ -49,6 +51,13 @@ public abstract class MovieMapper {
     //@Mapping(target = "franchise", source = "franchise", qualifiedByName = "franchiseIdToFranchise")
     //@Mapping(target = "characters", source = "characters", qualifiedByName = "characterIdsToCharacters")
     public abstract Movie moviePostDtoToMovie(MoviePostDTO moviePostDTO);
+
+    /**
+     * Convert MoviePutDTO to Movie
+     * @param moviePutDTO MoviePutDTO entity to convert
+     * @return Movie entity
+     */
+    public abstract Movie moviePutDtoToMovie(MoviePutDTO moviePutDTO);
 
     /**
      * Convert set of Character entities to their respective IDs.

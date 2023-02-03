@@ -4,6 +4,7 @@ import com.example.assignment3.model.Character;
 import com.example.assignment3.model.Movie;
 import com.example.assignment3.model.dto.character.CharacterDTO;
 import com.example.assignment3.model.dto.character.CharacterPostDTO;
+import com.example.assignment3.model.dto.character.CharacterPutDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -39,6 +40,13 @@ public abstract class CharacterMapper {
      * @return Character entity
      */
     public abstract Character characterPostDtoToCharacter(CharacterPostDTO characterPostDTO);
+
+    /**
+     * Convert CharacterPutDTO to Character
+     * @param characterPutDTO CharacterPutDTO entity to convert
+     * @return Character entity
+     */
+    public abstract Character characterPutDtoToCharacter(CharacterPutDTO characterPutDTO);
 
     /**
      * Convert set of Movie entities to their respective IDs.

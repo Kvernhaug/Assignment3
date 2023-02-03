@@ -1,13 +1,16 @@
 package com.example.assignment3.services.franchise;
 
+import com.example.assignment3.model.Character;
 import com.example.assignment3.model.Franchise;
+import com.example.assignment3.model.Movie;
 import com.example.assignment3.repositories.FranchiseRepository;
-import com.example.assignment3.services.movie.MovieServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 // Implementation of FranchiseService interface
 @Service
@@ -51,5 +54,20 @@ public class FranchiseServiceImpl implements FranchiseService{
     @Override
     public void delete(Franchise entity) {
         franchiseRepository.delete(entity);
+    }
+
+
+    @Override
+    public Set<Movie> findMoviesInFranchise(int franchiseId) {
+        return franchiseRepository.findById(franchiseId).get().getMovies();
+    }
+
+    @Override
+    public Set<Character> findCharactersInFranchise(int franchiseId) {
+        Set<Character> characters = new HashSet<>();
+        for (Movie movie : franchiseRepository.findById(franchiseId).get().getMovies()) {
+            characters.addAll(movie.getCharacters());
+        }
+        return characters;
     }
 }

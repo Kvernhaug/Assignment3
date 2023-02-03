@@ -1,5 +1,6 @@
 package com.example.assignment3.services.movie;
 
+import com.example.assignment3.model.Character;
 import com.example.assignment3.model.Movie;
 import com.example.assignment3.repositories.MovieRepository;
 
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Set;
 
 // Implementation of MovieService interface
 @Service
@@ -54,5 +56,9 @@ public class MovieServiceImpl implements MovieService {
         movieRepository.delete(entity);
     }
 
+    @Override
+    public Set<Character> findCharactersInMovie(int movieId) {
+        return movieRepository.findById(movieId).get().getCharacters();
+    }
 }
 

@@ -1,9 +1,13 @@
 package com.example.assignment3.controllers;
 
+import com.example.assignment3.mappers.CharacterMapper;
 import com.example.assignment3.mappers.MovieMapper;
 import com.example.assignment3.model.Movie;
+import com.example.assignment3.model.dto.character.CharacterDTO;
+import com.example.assignment3.model.dto.franchise.FranchisePutDTO;
 import com.example.assignment3.model.dto.movie.MovieDTO;
 import com.example.assignment3.model.dto.movie.MoviePostDTO;
+import com.example.assignment3.model.dto.movie.MoviePutDTO;
 import com.example.assignment3.services.movie.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -27,10 +31,12 @@ import java.net.URISyntaxException;
 public class MovieController {
     private final MovieService movieService;
     private final MovieMapper movieMapper;
+    private final CharacterMapper characterMapper;
 
-    public MovieController(MovieService movieService, MovieMapper movieMapper) {
+    public MovieController(MovieService movieService, MovieMapper movieMapper, CharacterMapper characterMapper) {
         this.movieService = movieService;
         this.movieMapper = movieMapper;
+        this.characterMapper = characterMapper;
     }
 
     /**
@@ -45,7 +51,7 @@ public class MovieController {
                     description = "Success",
                     content = {
                             @Content(mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = Movie.class)))
+                                    array = @ArraySchema(schema = @Schema(implementation = MovieDTO.class)))
                     }
             )
     })
@@ -70,7 +76,7 @@ public class MovieController {
                     description = "Success",
                     content = {
                             @Content(mediaType = "application/json",
-                                    schema = @Schema(implementation = Movie.class))
+                                    schema = @Schema(implementation = MovieDTO.class))
                     }
             ),
             @ApiResponse(
@@ -119,7 +125,8 @@ public class MovieController {
             @ApiResponse(
                     responseCode = "200",
                     description = "Removed",
-                    content = @Content
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MovieDTO.class))
             )
     })
     public ResponseEntity deleteById(@RequestParam int id) {
@@ -128,5 +135,57 @@ public class MovieController {
         );
         movieService.deleteById(id);
         return ResponseEntity.ok(movieDTO);
+    }
+
+    @PutMapping("{id}")
+    @Operation(summary = "Update a movie")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Success",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "Bad Request",
+                    content = @Content
+            ),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not Found",
+                    content = @Content
+            )
+    })
+    public ResponseEntity update(@RequestBody MoviePutDTO entity, @PathVariable int id) {
+        if (id != entity.getId()) {
+            return ResponseEntity.badRequest().build();
+        }
+        movieService.update(movieMapper.moviePutDtoToMovie(entity));
+        return ResponseEntity.noContent().build();
+    }
+
+    /**
+     * Calls findCharactersInMovie from MovieService
+     * @param id ID of movie
+     * @return Response entity of all characters in given movie
+     */
+    @GetMapping("{id}/characters")
+    @Operation(summary = "Get characters in movie")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    array = @ArraySchema(schema = @Schema(implementation = CharacterDTO.class)))
+                    }
+            )
+    })
+    public ResponseEntity findCharactersInMovie(@PathVariable int id) {
+        return ResponseEntity.ok(
+                characterMapper.characterToCharacterDto(
+                        movieService.findCharactersInMovie(id)
+                )
+        );
     }
 }

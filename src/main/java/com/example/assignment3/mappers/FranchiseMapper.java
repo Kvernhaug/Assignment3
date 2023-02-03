@@ -5,6 +5,7 @@ import com.example.assignment3.model.Franchise;
 import com.example.assignment3.model.Movie;
 import com.example.assignment3.model.dto.franchise.FranchiseDTO;
 import com.example.assignment3.model.dto.franchise.FranchisePostDTO;
+import com.example.assignment3.model.dto.franchise.FranchisePutDTO;
 import com.example.assignment3.model.dto.movie.MovieDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -41,6 +42,13 @@ public abstract class FranchiseMapper {
      * @return Franchise entity
      */
     public abstract Franchise franchisePostDtoToFranchise(FranchisePostDTO franchisePostDTO);
+
+    /**
+     * Convert FranchisePutDTO to Franchise
+     * @param franchisePutDTO FranchisePutDTO entity to convert
+     * @return Franchise entity
+     */
+    public abstract Franchise franchisePutDtoToFranchise(FranchisePutDTO franchisePutDTO);
 
     /**
      * Convert set of Movie entities to their respective IDs.
