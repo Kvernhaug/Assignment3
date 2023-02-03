@@ -4,6 +4,7 @@ import com.example.assignment3.model.Character;
 import com.example.assignment3.model.Franchise;
 import com.example.assignment3.model.Movie;
 import com.example.assignment3.repositories.FranchiseRepository;
+import com.example.assignment3.repositories.MovieRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,10 +21,12 @@ public class FranchiseServiceImpl implements FranchiseService{
      * provided by the FranchiseRepository
      */
     private final FranchiseRepository franchiseRepository;
+    private final MovieRepository movieRepository;
     private final Logger logger = LoggerFactory.getLogger(FranchiseServiceImpl.class);
 
-    public FranchiseServiceImpl(FranchiseRepository franchiseRepository) {
+    public FranchiseServiceImpl(FranchiseRepository franchiseRepository, MovieRepository movieRepository) {
         this.franchiseRepository = franchiseRepository;
+        this.movieRepository = movieRepository;
     }
 
     @Override
@@ -69,5 +72,17 @@ public class FranchiseServiceImpl implements FranchiseService{
             characters.addAll(movie.getCharacters());
         }
         return characters;
+    }
+
+    @Override
+    public void updateMovies(int franchiseID, int[] movieIDs) {
+        Franchise franchise = franchiseRepository.findById(franchiseID).get();
+        Set<Movie> movieList = new HashSet<>();
+
+        for (int id: movieIDs) {
+            movieList.add(movieRepository.findById(id).get());
+        }
+        franchise.setMovies(movieList);
+        franchiseRepository.save(franchise);
     }
 }

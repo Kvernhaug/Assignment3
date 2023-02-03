@@ -26,4 +26,12 @@ public interface FranchiseService extends CrudService<Franchise, Integer> {
      * @return characters belonging to franchise entity
      */
     Set<Character> findCharactersInFranchise(int franchiseId);
+
+    /**
+     * Update movies associated with given franchise.
+     * Ignores previous movies in franchise.
+     * @param franchiseID ID of franchise
+     * @param movieIDs list of movie IDs
+     */
+    void updateMovies(int franchiseID, int[] movieIDs);
 }

@@ -2,6 +2,7 @@ package com.example.assignment3.services.movie;
 
 import com.example.assignment3.model.Character;
 import com.example.assignment3.model.Movie;
+import com.example.assignment3.repositories.CharacterRepository;
 import com.example.assignment3.repositories.MovieRepository;
 
 import org.slf4j.Logger;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 // Implementation of MovieService interface
@@ -19,11 +21,12 @@ public class MovieServiceImpl implements MovieService {
      * provided by the MovieRepository
      */
     private final MovieRepository movieRepository;
+    private final CharacterRepository characterRepository;
     private final Logger logger = LoggerFactory.getLogger(MovieServiceImpl.class);
 
-    public MovieServiceImpl(MovieRepository movieRepository) {
+    public MovieServiceImpl(MovieRepository movieRepository, CharacterRepository characterRepository) {
         this.movieRepository = movieRepository;
-
+        this.characterRepository = characterRepository;
     }
 
     @Override
@@ -60,5 +63,18 @@ public class MovieServiceImpl implements MovieService {
     public Set<Character> findCharactersInMovie(int movieId) {
         return movieRepository.findById(movieId).get().getCharacters();
     }
+
+    @Override
+    public void updateCharacters(int movieID, int[] characterIDs) {
+        Movie movie = movieRepository.findById(movieID).get();
+        Set<Character> characterList = new HashSet<>();
+
+        for (int id: characterIDs) {
+            characterList.add(characterRepository.findById(id).get());
+        }
+        movie.setCharacters(characterList);
+        movieRepository.save(movie);
+    }
+
 }
 

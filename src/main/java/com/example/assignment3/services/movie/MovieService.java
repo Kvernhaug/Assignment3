@@ -18,4 +18,12 @@ public interface MovieService extends CrudService<Movie, Integer> {
      * @return characters belonging to movie entity
      */
     Set<Character> findCharactersInMovie(int movieId);
+
+    /**
+     * Update characters associated with given movie.
+     * Ignores previous characters in movie.
+     * @param movieID ID of movie
+     * @param characterIDs list of character IDs
+     */
+    void updateCharacters(int movieID, int[] characterIDs);
 }

@@ -194,4 +194,24 @@ public class MovieController {
                 )
         );
     }
+
+    /**
+     * Calls updateCharacters from MovieService
+     * @param id ID of movie
+     * @param characterIds Character IDs
+     * @return Response entity
+     */
+    @PutMapping("{id}/characters")
+    @Operation(summary = "Update characters in movie")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Success",
+                    content = @Content
+            )
+    })
+    public ResponseEntity updateCharacters(@PathVariable int id, @RequestBody int[] characterIds) {
+        movieService.updateCharacters(id, characterIds);
+        return ResponseEntity.noContent().build();
+    }
 }

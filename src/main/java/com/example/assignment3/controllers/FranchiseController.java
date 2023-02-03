@@ -229,4 +229,24 @@ public class FranchiseController {
                 )
         );
     }
+
+    /**
+     * Calls updateMovies from FranchiseService
+     * @param id ID of franchise
+     * @param movieIds Movie IDs
+     * @return Response entity
+     */
+    @PutMapping("{id}/movies")
+    @Operation(summary = "Update movies in franchise")
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "204",
+                    description = "Success",
+                    content = @Content
+            )
+    })
+    public ResponseEntity updateMovies(@PathVariable int id, @RequestBody int[] movieIds) {
+        franchiseService.updateMovies(id, movieIds);
+        return ResponseEntity.noContent().build();
+    }
 }
