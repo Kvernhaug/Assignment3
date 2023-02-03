@@ -4,8 +4,8 @@ import java.util.Collection;
 
 /**
  * Service interface for performing generic CRUD actions.
- * @param <T> Object class to perform CRUD actions on
- * @param <ID> ID of specific class entity
+ * @param <T> the domain type the interface manages
+ * @param <ID> the type of the id of the entity the interface manages
  */
 public interface CrudService <T, ID> {
 
@@ -36,7 +36,15 @@ public interface CrudService <T, ID> {
      */
     T update(T entity);
 
-
+    /**
+     * Delete entity of given ID.
+     * @param id ID of entity
+     */
     void deleteById(ID id);
+
+    /**
+     * Delete given entity.
+     * @param entity entity to be deleted
+     */
     void delete(T entity);
 }

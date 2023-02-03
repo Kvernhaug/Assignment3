@@ -1,24 +1,13 @@
 package com.example.assignment3.runner;
 
-import com.example.assignment3.model.Character;
-import com.example.assignment3.model.Movie;
-import com.example.assignment3.repositories.CharacterRepository;
 import com.example.assignment3.services.movie.MovieService;
-import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
-
+// TODO: Used for manual debugging, should not be in final version.
 @Component
-public class AppRunner implements CommandLineRunner {
-
+public class AppRunner implements ApplicationRunner {
     private final MovieService movieService;
 
     public AppRunner(MovieService movieService) {
@@ -27,12 +16,7 @@ public class AppRunner implements CommandLineRunner {
 
 
     @Override
-    @Transactional
-    public void run(String... args) throws Exception {
-        Movie movie = movieService.findById(1);
-        System.out.println(movie.getTitle());
+    public void run(ApplicationArguments args) throws Exception {
+
     }
-
-
 }
-

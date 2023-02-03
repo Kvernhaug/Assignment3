@@ -9,8 +9,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 
+// Implementation of MovieService interface
 @Service
 public class MovieServiceImpl implements MovieService {
+    /**
+     * Most of the implemented methods relies on functionality
+     * provided by the MovieRepository
+     */
     private final MovieRepository movieRepository;
     private final Logger logger = LoggerFactory.getLogger(MovieServiceImpl.class);
 

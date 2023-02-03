@@ -1,11 +1,21 @@
 package com.example.assignment3.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
+
+/**
+ * This is a class representation of the character table in the database.
+ * Each field variable represents a column in the table.
+ */
 @Entity
+@Getter
+@Setter
 public class Character {
+    // Fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,55 +28,10 @@ public class Character {
     @Column(length = 50)
     private String picture;
     // Relationships
+    /**
+     * Many-to-many relationship with the movie table.
+     * movie is the owner of this relationship
+     */
     @ManyToMany(mappedBy = "characters")
     private Set<Movie> movies;
-
-    // Getters and setters
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAlias() {
-        return alias;
-    }
-
-    public void setAlias(String alias) {
-        this.alias = alias;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
-    public Set<Movie> getMovies() {
-        return movies;
-    }
-
-    public void setMovies(Set<Movie> movies) {
-        this.movies = movies;
-    }
 }
