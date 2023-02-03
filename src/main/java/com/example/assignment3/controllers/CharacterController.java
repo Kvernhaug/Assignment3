@@ -5,7 +5,6 @@ import com.example.assignment3.model.Character;
 import com.example.assignment3.model.dto.character.CharacterDTO;
 import com.example.assignment3.model.dto.character.CharacterPostDTO;
 import com.example.assignment3.model.dto.character.CharacterPutDTO;
-import com.example.assignment3.model.dto.franchise.FranchisePutDTO;
 import com.example.assignment3.services.character.CharacterService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

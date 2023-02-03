@@ -2,16 +2,12 @@ package com.example.assignment3.mappers;
 
 import com.example.assignment3.model.Character;
 import com.example.assignment3.model.Movie;
-import com.example.assignment3.model.dto.character.CharacterDTO;
 import com.example.assignment3.model.dto.movie.MovieDTO;
 import com.example.assignment3.model.dto.movie.MoviePostDTO;
 import com.example.assignment3.model.dto.movie.MoviePutDTO;
-import com.example.assignment3.services.character.CharacterService;
-import com.example.assignment3.services.franchise.FranchiseService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Collection;
 import java.util.Set;
@@ -22,10 +18,6 @@ import java.util.stream.Collectors;
  */
 @Mapper(componentModel = "spring")
 public abstract class MovieMapper {
-    //@Autowired
-    //protected FranchiseService franchiseService;
-    //@Autowired
-    //protected CharacterService characterService;
 
     /**
      * Convert Movie to MovieDTO.
@@ -48,8 +40,6 @@ public abstract class MovieMapper {
      * @param moviePostDTO MoviePostDTO entity to convert
      * @return Movie entity
      */
-    //@Mapping(target = "franchise", source = "franchise", qualifiedByName = "franchiseIdToFranchise")
-    //@Mapping(target = "characters", source = "characters", qualifiedByName = "characterIdsToCharacters")
     public abstract Movie moviePostDtoToMovie(MoviePostDTO moviePostDTO);
 
     /**
@@ -71,16 +61,4 @@ public abstract class MovieMapper {
         return source.stream()
                 .map(s -> s.getId()).collect(Collectors.toSet());
     }
-
-    /* TODO: probably delete this?
-    @Named("franchiseIdToFranchise")
-    Franchise mapIdToFranchise(int id) {
-        return null;
-    }
-
-    @Named("characterIdsToCharacters")
-    Set<Character> mapIdsToCharacters(Set<Integer> ids) {
-        return null;
-    }
-     */
 }

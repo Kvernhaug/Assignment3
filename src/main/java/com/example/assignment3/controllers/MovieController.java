@@ -4,7 +4,6 @@ import com.example.assignment3.mappers.CharacterMapper;
 import com.example.assignment3.mappers.MovieMapper;
 import com.example.assignment3.model.Movie;
 import com.example.assignment3.model.dto.character.CharacterDTO;
-import com.example.assignment3.model.dto.franchise.FranchisePutDTO;
 import com.example.assignment3.model.dto.movie.MovieDTO;
 import com.example.assignment3.model.dto.movie.MoviePostDTO;
 import com.example.assignment3.model.dto.movie.MoviePutDTO;
