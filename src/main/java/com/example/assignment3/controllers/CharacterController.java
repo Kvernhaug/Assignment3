@@ -134,6 +134,12 @@ public class CharacterController {
         return ResponseEntity.ok(characterDTO);
     }
 
+    /**
+     * Calls update method from CharacterService
+     * @param entity New entity to replace old
+     * @param id ID for path variable
+     * @return Response entity based on response code
+     */
     @PutMapping("{id}")
     @Operation(summary = "Update a character")
     @ApiResponses(value = {

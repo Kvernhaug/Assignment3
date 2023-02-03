@@ -137,6 +137,12 @@ public class MovieController {
         return ResponseEntity.ok(movieDTO);
     }
 
+    /**
+     * Calls update method from MovieService
+     * @param entity New entity to replace old
+     * @param id ID for path variable
+     * @return Response entity based on response code
+     */
     @PutMapping("{id}")
     @Operation(summary = "Update a movie")
     @ApiResponses(value = {

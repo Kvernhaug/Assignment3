@@ -148,10 +148,10 @@ public class FranchiseController {
     }
 
     /**
-     *
-     * @param entity
-     * @param id
-     * @return
+     * Calls update method from FranchiseService
+     * @param entity New entity to replace old
+     * @param id ID for path variable
+     * @return Response entity based on response code
      */
     @PutMapping("{id}")
     @Operation(summary = "Update a franchise")
